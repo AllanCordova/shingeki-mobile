@@ -1,0 +1,215 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+
+/* ============================================================================
+   DESIGN SYSTEM - CSS VARIABLES (dark-first, Shingeki)
+   Single source of truth; Tailwind maps to these via tailwind.config.js
+   ============================================================================ */
+
+:root {
+  /* ─── TYPOGRAPHY ─────────────────────────────────────────────────────── */
+  --font-family:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 2;
+
+  /* ─── SEMANTIC SURFACE & TEXT (dark UI) ─────────────────────────────── */
+  --color-canvas: #070b12;
+  --color-elevated: #0f1419;
+  --color-muted: #161d27;
+  --color-input: #0c1118;
+  --color-border: #2a3544;
+  --color-border-subtle: #1e2836;
+  --color-fg: #f1f5f9;
+  --color-fg-muted: #94a3b8;
+  --color-fg-subtle: #64748b;
+  --color-accent: #38bdf8;
+  --color-accent-muted: #0ea5e9;
+
+  /* Legacy aliases (maps to dark tokens) */
+  --bg-surface: var(--color-elevated);
+  --bg-surface-hover: var(--color-muted);
+  --bg-primary: #0a1628;
+  --bg-secondary: #111c2e;
+  --bg-tertiary: #152536;
+
+  --text-primary: var(--color-fg);
+  --text-secondary: var(--color-fg-muted);
+  --text-tertiary: var(--color-fg-subtle);
+  --text-inverse: #0b1220;
+
+  --border-color: var(--color-border);
+  --border-color-light: var(--color-border-subtle);
+  --divider-color: #334155;
+
+  /* ─── PRIMARY (cyan / sky accent on dark) ───────────────────────────── */
+  --primary-50: #ecfeff;
+  --primary-100: #cffafe;
+  --primary-200: #a5f3fc;
+  --primary-300: #67e8f9;
+  --primary-400: #22d3ee;
+  --primary-500: #06b6d4;
+  --primary-600: #0891b2;
+  --primary-700: #0e7490;
+  --primary-800: #155e75;
+  --primary-900: #164e63;
+  --primary-950: #083344;
+
+  /* ─── SECONDARY (violet, sparing use) ───────────────────────────────── */
+  --secondary-50: #faf5ff;
+  --secondary-100: #f3e8ff;
+  --secondary-200: #e9d5ff;
+  --secondary-300: #d8b4fe;
+  --secondary-400: #c084fc;
+  --secondary-500: #a855f7;
+  --secondary-600: #9333ea;
+  --secondary-700: #7e22ce;
+  --secondary-800: #6b21a8;
+  --secondary-900: #581c87;
+  --secondary-950: #3b0764;
+
+  /* ─── GRAY (slate scale: 50 = light text, 950 = deepest surface) ───── */
+  --gray-0: #ffffff;
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1;
+  --gray-400: #94a3b8;
+  --gray-500: #64748b;
+  --gray-600: #475569;
+  --gray-700: #334155;
+  --gray-800: #1e293b;
+  --gray-900: #0f172a;
+  --gray-950: #020617;
+
+  /* ─── SEMANTIC STATUS (dark surfaces) ───────────────────────────────── */
+  --success-50: #052e16;
+  --success-100: #14532d;
+  --success-500: #4ade80;
+  --success-600: #22c55e;
+  --success-700: #16a34a;
+
+  --warning-50: #422006;
+  --warning-100: #713f12;
+  --warning-500: #fbbf24;
+  --warning-600: #f59e0b;
+  --warning-700: #d97706;
+
+  --error-50: #450a0a;
+  --error-100: #7f1d1d;
+  --error-200: #991b1b;
+  --error-300: #fca5a5;
+  --error-400: #f87171;
+  --error-500: #ef4444;
+  --error-600: #dc2626;
+  --error-700: #b91c1c;
+
+  --info-50: #172554;
+  --info-100: #1e3a8a;
+  --info-500: #60a5fa;
+  --info-600: #3b82f6;
+  --info-700: #2563eb;
+
+  /* ─── SHADOW (subtle on dark) ───────────────────────────────────────── */
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.35);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.45);
+  --shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.5);
+  --shadow-lg: 0 12px 24px -4px rgb(0 0 0 / 0.55);
+  --shadow-xl: 0 20px 40px -8px rgb(0 0 0 / 0.6);
+  --shadow-2xl: 0 24px 48px -10px rgb(0 0 0 / 0.65);
+
+  /* ─── SPACING ───────────────────────────────────────────────────────── */
+  --spacing-0: 0;
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.25rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-10: 2.5rem;
+  --spacing-12: 3rem;
+  --spacing-16: 4rem;
+
+  /* ─── BORDER RADIUS ─────────────────────────────────────────────────── */
+  --radius-none: 0;
+  --radius-sm: 0.125rem;
+  --radius-base: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* ─── TRANSITIONS ─────────────────────────────────────────────────────── */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================================================
+   BASE STYLES
+   ============================================================================ */
+
+@tailwind base;
+
+* {
+  font-family: var(--font-family);
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--color-canvas);
+  color: var(--color-fg);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+  font-weight: var(--font-weight-normal);
+}
+
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================================
+   COMPONENT UTILITIES (Tailwind + design tokens only)
+   ============================================================================ */
+
+.btn-primary {
+  @apply px-4 py-3 bg-primary-500 text-gray-950 font-semibold rounded-xl active:bg-primary-600;
+}
+
+.btn-secondary {
+  @apply px-4 py-3 bg-secondary-600 text-gray-50 font-semibold rounded-xl active:bg-secondary-700;
+}
+
+.btn-ghost {
+  @apply px-4 py-3 text-primary-300 font-semibold rounded-xl bg-muted active:bg-elevated border border-border;
+}
+
+.card {
+  @apply bg-elevated rounded-2xl border border-border shadow-md p-6;
+}
+
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
