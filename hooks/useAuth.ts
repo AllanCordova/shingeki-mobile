@@ -9,19 +9,21 @@ import {
   setPersistedToken,
 } from "@/lib/authTokenStorage";
 import { getAxiosErrorMessage } from "@/lib/http";
+import { getApiSuccessMessage } from "@/lib/toastMessages";
+import { toast } from "@/hooks/useToast";
 import {
+  AuthResponse,
   loginSchema,
   registerSchema,
-  updateSchema,
-  type AuthResponse,
+  SuccessResponse,
+  User,
   type LoginInput,
   type RegisterInput,
-  type SuccessResponse,
-  type UpdateInput,
-  type User,
 } from "@/schemas/auth";
 import { ZodError } from "zod";
 import { create } from "zustand";
+
+
 
 interface AuthState {
   user: User | null;
@@ -34,7 +36,6 @@ interface AuthState {
   login: (data: LoginInput) => Promise<void>;
   logout: () => Promise<void>;
   getMe: () => Promise<void>;
-  updateMe: (data: UpdateInput) => Promise<void>;
   clearError: () => void;
   setToken: (token: string) => void;
   hydrateSession: () => Promise<void>;
@@ -53,7 +54,9 @@ export const useAuth = create<AuthState>((set, get) => ({
       set({ user: null, token: null, sessionHydrated: true });
       return;
     }
+    
     set({ token: stored });
+    
     try {
       const response = await apiClient.get<User>("/me");
       set({ user: response.data, sessionHydrated: true, error: null });
@@ -80,12 +83,16 @@ export const useAuth = create<AuthState>((set, get) => ({
 
       const token = response.data.token;
       setPersistedToken(token);
+      
       set({
         user: response.data.user,
         token,
         isLoading: false,
       });
 
+      toast.success(
+        getApiSuccessMessage(response.data, "Account created successfully"),
+      );
       return true;
     } catch (err) {
       const errorMessage =
@@ -93,6 +100,7 @@ export const useAuth = create<AuthState>((set, get) => ({
           ? (err.issues[0]?.message ?? "Registration failed")
           : getAxiosErrorMessage(err, "Registration failed");
 
+      toast.error(errorMessage);
       set({ error: errorMessage, isLoading: false });
 
       return false;
@@ -111,23 +119,28 @@ export const useAuth = create<AuthState>((set, get) => ({
 
       const token = response.data.token;
       setPersistedToken(token);
+      
       set({
         user: response.data.user,
         token,
         isLoading: false,
       });
+      toast.success(getApiSuccessMessage(response.data, "Signed in successfully"));
     } catch (err) {
       const errorMessage =
         err instanceof ZodError
           ? (err.issues[0]?.message ?? "Login failed")
           : getAxiosErrorMessage(err, "Login failed");
 
+      toast.error(errorMessage);
       set({ error: errorMessage, isLoading: false });
     }
   },
 
   logout: async () => {
     const hadToken = !!get().token;
+    let succeeded = true;
+
     try {
       set({ isLoading: true, error: null });
 
@@ -135,9 +148,10 @@ export const useAuth = create<AuthState>((set, get) => ({
         await apiClient.post<SuccessResponse>("/logout");
       }
     } catch (err) {
-      set({
-        error: getAxiosErrorMessage(err, "Logout failed"),
-      });
+      succeeded = false;
+      const message = getAxiosErrorMessage(err, "Logout failed");
+      toast.error(message);
+      set({ error: message });
     } finally {
       removePersistedToken();
       set({
@@ -145,6 +159,10 @@ export const useAuth = create<AuthState>((set, get) => ({
         token: null,
         isLoading: false,
       });
+    }
+
+    if (hadToken && succeeded) {
+      toast.success("Signed out successfully");
     }
   },
 
@@ -159,35 +177,14 @@ export const useAuth = create<AuthState>((set, get) => ({
         isLoading: false,
       });
     } catch (err) {
-      set({
-        error: getAxiosErrorMessage(err, "Failed to fetch user"),
-        isLoading: false,
-      });
-    }
-  },
-
-  updateMe: async (data) => {
-    try {
-      set({ isLoading: true, error: null });
-      const validatedData = updateSchema.parse(data);
-
-      const response = await apiClient.put<User>("/me", validatedData);
-
-      set({
-        user: response.data,
-        isLoading: false,
-      });
-    } catch (err) {
-      const errorMessage =
-        err instanceof ZodError
-          ? (err.issues[0]?.message || "Validation error")
-          : getAxiosErrorMessage(err, "Update failed");
-
-      set({ error: errorMessage, isLoading: false });
+      const message = getAxiosErrorMessage(err, "Failed to fetch user");
+      toast.error(message);
+      set({ error: message, isLoading: false });
     }
   },
 
   clearError: () => set({ error: null }),
+  
   setToken: (token) => {
     setPersistedToken(token);
     set({ token });
@@ -203,4 +200,5 @@ registerUnauthorizedHandler(() => {
     token: null,
     isLoading: false,
   });
+  toast.error("Session expired. Please sign in again.");
 });

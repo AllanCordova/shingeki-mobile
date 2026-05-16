@@ -24,7 +24,6 @@ export function setPersistedToken(token: string): void {
   try {
     globalThis.localStorage.setItem(STORAGE_KEY, token);
   } catch {
-    /* ignore quota / private mode */
   }
 }
 
@@ -33,6 +32,5 @@ export function removePersistedToken(): void {
   try {
     globalThis.localStorage.removeItem(STORAGE_KEY);
   } catch {
-    /* ignore */
   }
 }
