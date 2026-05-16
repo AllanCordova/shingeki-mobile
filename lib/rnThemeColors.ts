@@ -1,7 +1,3 @@
-/**
- * Hex values for APIs that do not read CSS variables (MaterialIcons, TextInput placeholder).
- * Keep in sync with :root in global.css.
- */
 export const RN_THEME = {
   accent: "#22d3ee",
   onAccent: "#020617",
@@ -10,7 +6,6 @@ export const RN_THEME = {
   fgSubtle: "#64748b",
   error: "#f87171",
   onErrorSurface: "#fecaca",
-  /** Matches --color-canvas / --color-elevated (React Navigation headerStyle) */
   canvas: "#070b12",
   elevated: "#0f1419",
 } as const;

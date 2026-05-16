@@ -1,4 +1,4 @@
-import { Background, HeaderAction } from "@/components/ui";
+import { Background, HeaderAction, ToastHost } from "@/components/ui";
 import { Loading } from "@/components/ui/Loading";
 import { useAuth } from "@/hooks/useAuth";
 import { RN_THEME } from "@/lib/rnThemeColors";
@@ -7,6 +7,7 @@ import { Stack, usePathname, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import "../global.css";
 
 const NAV_THEME = {
@@ -51,6 +52,7 @@ export default function RootLayout() {
   }, [sessionHydrated, user, pathname, router]);
 
   return (
+    <SafeAreaProvider>
     <ThemeProvider value={NAV_THEME}>
       <StatusBar style="light" />
       <View className="flex-1">
@@ -62,6 +64,7 @@ export default function RootLayout() {
           ]}
         />
         <Background />
+        <ToastHost />
         {!sessionHydrated ? (
           <Loading fullScreen />
         ) : (
@@ -100,5 +103,6 @@ export default function RootLayout() {
         )}
       </View>
     </ThemeProvider>
+    </SafeAreaProvider>
   );
 }

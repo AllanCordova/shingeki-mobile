@@ -1,9 +1,8 @@
-import { HeaderAction } from "@/components/ui";
+import { HeaderRight } from "@/components/ui";
 import { RN_THEME } from "@/lib/rnThemeColors";
 import { MaterialIcons } from "@expo/vector-icons";
-import { Tabs, type Href } from "expo-router";
+import { Tabs } from "expo-router";
 import React from "react";
-import { View } from "react-native";
 
 export default function TabsLayout() {
   return (
@@ -14,6 +13,7 @@ export default function TabsLayout() {
         headerTitleStyle: { fontWeight: "700" },
         headerShadowVisible: false,
         sceneStyle: { backgroundColor: RN_THEME.canvas },
+        headerRight: () => <HeaderRight />,
         tabBarStyle: {
           backgroundColor: RN_THEME.elevated,
           borderTopColor: RN_THEME.canvas,
@@ -32,34 +32,6 @@ export default function TabsLayout() {
             <MaterialIcons name="home" size={size} color={color} />
           ),
           headerTitle: "Shingeki",
-          headerRight: () => (
-            <View className="flex-row items-center gap-2 pr-1">
-              <HeaderAction
-                href={"/profile" as Href}
-                label="Profile"
-                icon="person"
-                variant="ghost"
-              />
-            </View>
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="scans"
-        options={{
-          title: "Scans",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="security" size={size} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="code"
-        options={{
-          title: "Code",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="code" size={size} color={color} />
-          ),
         }}
       />
       <Tabs.Screen
