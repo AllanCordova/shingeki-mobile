@@ -2,6 +2,7 @@
  * Rotas autenticadas: sessão obrigatória (o nome "(auth)" aqui significa "área autenticada",
  * não o fluxo de login — login/register ficam fora deste grupo).
  */
+import { HeaderRight } from "@/components/ui";
 import { useAuth } from "@/hooks/useAuth";
 import { RN_THEME } from "@/lib/rnThemeColors";
 import { Redirect, Stack } from "expo-router";
@@ -31,6 +32,7 @@ export default function AuthenticatedLayout() {
       screenOptions={{
         ...stackScreenOptions,
         headerTitle: "Shingeki",
+        headerRight: () => <HeaderRight />,
       }}
     >
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
@@ -38,6 +40,20 @@ export default function AuthenticatedLayout() {
         name="profile"
         options={{
           headerTitle: "Profile",
+          presentation: "card",
+        }}
+      />
+      <Stack.Screen
+        name="projects/[id]"
+        options={{
+          headerTitle: "Project",
+          presentation: "card",
+        }}
+      />
+      <Stack.Screen
+        name="systems/[id]"
+        options={{
+          headerTitle: "System",
           presentation: "card",
         }}
       />
