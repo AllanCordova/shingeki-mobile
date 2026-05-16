@@ -1,11 +1,9 @@
-import { Error } from "@/components/ui/Error";
-import { Input } from "@/components/ui/Input";
-import { Loading } from "@/components/ui/Loading";
+import { Error, Input, Loading } from "@/components/ui";
 import { useAuth } from "@/hooks/useAuth";
 import { registerSchema, type RegisterInput } from "@/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useRouter } from "expo-router";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 

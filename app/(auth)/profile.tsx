@@ -1,3 +1,4 @@
+import { UserAvatar } from "@/components/ui";
 import { useAuth } from "@/hooks/useAuth";
 import { Link, useRouter } from "expo-router";
 import React from "react";
@@ -10,10 +11,15 @@ export default function ProfileScreen() {
   return (
     <ScrollView className="flex-1 bg-canvas" keyboardShouldPersistTaps="handled">
       <View className="border-b border-border-subtle bg-elevated px-5 pb-6 pt-4">
-        <Text className="text-2xl font-black text-fg">Profile</Text>
-        <Text className="mt-1 text-sm text-fg-muted">
-          Signed-in workspace identity (test screen).
-        </Text>
+        <View className="flex-row items-center gap-4">
+          <UserAvatar iconPath={user?.icon_path} size={72} />
+          <View className="min-w-0 flex-1">
+            <Text className="text-2xl font-black text-fg">Profile</Text>
+            <Text className="mt-1 text-sm text-fg-muted">
+              Signed-in workspace identity
+            </Text>
+          </View>
+        </View>
       </View>
 
       <View className="px-5 py-6">
