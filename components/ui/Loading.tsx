@@ -22,8 +22,8 @@ export const Loading: React.FC<LoadingProps> = ({
   }
 
   return (
-    <View className="justify-center items-center py-6">
-      <ActivityIndicator size={size} color={color} />
+      <View className="justify-center items-center py-6">
+      <ActivityIndicator testID="loading-indicator" size={size} color={color} />
     </View>
   );
 };

@@ -9,7 +9,7 @@ interface ErrorProps {
   type?: "inline" | "alert" | "banner";
 }
 
-export const Error: React.FC<ErrorProps> = ({
+export const ErrorMessages: React.FC<ErrorProps> = ({
   message,
   visible = true,
   type = "inline",
