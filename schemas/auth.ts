@@ -15,9 +15,7 @@ export const registerSchema = z
       .max(255, "Icon path must be at most 255 characters")
       .nullable()
       .optional(),
-    password: z
-      .string()
-      .min(8, "Password must be at least 8 characters"),
+    password: z.string().min(8, "Password must be at least 8 characters"),
     password_confirmation: z.string(),
   })
   .refine((data) => data.password === data.password_confirmation, {

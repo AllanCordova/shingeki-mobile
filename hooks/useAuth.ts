@@ -23,8 +23,6 @@ import {
 import { ZodError } from "zod";
 import { create } from "zustand";
 
-
-
 interface AuthState {
   user: User | null;
   token: string | null;
@@ -54,9 +52,9 @@ export const useAuth = create<AuthState>((set, get) => ({
       set({ user: null, token: null, sessionHydrated: true });
       return;
     }
-    
+
     set({ token: stored });
-    
+
     try {
       const response = await apiClient.get<User>("/me");
       set({ user: response.data, sessionHydrated: true, error: null });
@@ -83,7 +81,7 @@ export const useAuth = create<AuthState>((set, get) => ({
 
       const token = response.data.token;
       setPersistedToken(token);
-      
+
       set({
         user: response.data.user,
         token,
@@ -119,13 +117,15 @@ export const useAuth = create<AuthState>((set, get) => ({
 
       const token = response.data.token;
       setPersistedToken(token);
-      
+
       set({
         user: response.data.user,
         token,
         isLoading: false,
       });
-      toast.success(getApiSuccessMessage(response.data, "Signed in successfully"));
+      toast.success(
+        getApiSuccessMessage(response.data, "Signed in successfully"),
+      );
     } catch (err) {
       const errorMessage =
         err instanceof ZodError
@@ -184,7 +184,7 @@ export const useAuth = create<AuthState>((set, get) => ({
   },
 
   clearError: () => set({ error: null }),
-  
+
   setToken: (token) => {
     setPersistedToken(token);
     set({ token });
