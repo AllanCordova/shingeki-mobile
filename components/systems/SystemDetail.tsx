@@ -3,7 +3,7 @@ import { SystemCoverImage } from "@/components/systems/SystemCoverImage";
 import { System } from "@/schemas/system";
 import { MaterialIcons } from "@expo/vector-icons";
 import type { ComponentProps } from "react";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 
 type SystemDetailProps = {
   system: System;
@@ -49,11 +49,7 @@ export function SystemDetail({
   isDeleting = false,
 }: SystemDetailProps) {
   return (
-    <ScrollView
-      className="flex-1 bg-canvas"
-      showsVerticalScrollIndicator={false}
-      keyboardShouldPersistTaps="handled"
-    >
+    <View className="bg-canvas">
       <SystemCoverImage system={system} variant="banner" />
 
       <View className="px-5 py-6">
@@ -95,6 +91,6 @@ export function SystemDetail({
           </Pressable>
         ) : null}
       </View>
-    </ScrollView>
+    </View>
   );
 }
