@@ -41,9 +41,7 @@ export const Input: React.FC<InputProps> = ({
       <Text className="text-sm font-semibold text-fg-muted mb-2">{label}</Text>
       <TextInput
         className={`px-4 py-3 rounded-xl border font-normal text-base text-fg ${
-          error
-            ? "border-error-400 bg-error-50"
-            : "border-border bg-input"
+          error ? "border-error-400 bg-error-50" : "border-border bg-input"
         }`}
         placeholder={placeholder}
         placeholderTextColor={RN_THEME.fgSubtle}
