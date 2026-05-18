@@ -1,4 +1,8 @@
-import { SystemDetail } from "@/components/systems";
+import {
+  SystemDetail,
+  SystemOwnershipSection,
+  SystemScanSection,
+} from "@/components/systems";
 import { HeaderRight } from "@/components/ui";
 import {
   SYSTEM_FORM_FIELDS,
@@ -13,7 +17,7 @@ import { useSystem } from "@/hooks/useSystem";
 import { useFocusEffect } from "@react-navigation/native";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useCallback, useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, ScrollView, Text, View } from "react-native";
 
 export default function SystemDetailScreen() {
   const router = useRouter();
@@ -28,10 +32,24 @@ export default function SystemDetailScreen() {
     isSubmitting,
     detailError,
     submitError,
+    signatureToken,
+    embedHint,
+    signatureMeta,
+    lastScanInfo,
+    scanResults,
+    isSignatureLoading,
+    isValidating,
+    isScanning,
+    isResultsLoading,
     getSystemById,
     updateSystem,
     deleteSystem,
+    issueSignatureToken,
+    validateSignature,
+    startScan,
+    getScanResults,
     clearSelectedSystem,
+    clearScanState,
     clearSubmitError,
   } = useSystem();
 
@@ -43,8 +61,14 @@ export default function SystemDetailScreen() {
 
       return () => {
         clearSelectedSystem();
+        clearScanState();
       };
-    }, [id, getSystemById, clearSelectedSystem]),
+    }, [
+      id,
+      getSystemById,
+      clearSelectedSystem,
+      clearScanState,
+    ]),
   );
 
   const openEditModal = () => {
@@ -87,8 +111,8 @@ export default function SystemDetailScreen() {
     return (
       <View className="flex-1 bg-canvas">
         <ComingSoon
-          title="System not found"
-          description="Invalid identifier"
+          title="Sistema não encontrado"
+          description="Identificador inválido"
           icon="dns"
         />
       </View>
@@ -115,8 +139,8 @@ export default function SystemDetailScreen() {
     return (
       <View className="flex-1 bg-canvas">
         <ComingSoon
-          title="System not found"
-          description="Could not load system details"
+          title="Sistema não encontrado"
+          description="Não foi possível carregar os detalhes"
           icon="dns"
         />
       </View>
@@ -135,24 +159,55 @@ export default function SystemDetailScreen() {
                 hitSlop={12}
                 className="active:opacity-70"
               >
-                <Text className="text-sm font-semibold text-primary-400">Edit</Text>
+                <Text className="text-sm font-semibold text-primary-400">
+                  Editar
+                </Text>
               </Pressable>
             </HeaderRight>
           ),
         }}
       />
-      <SystemDetail
-        system={selectedSystem}
-        onDelete={openDeleteConfirm}
-        isDeleting={isDeleting}
-      />
+      <ScrollView
+        className="flex-1 bg-canvas"
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+      >
+        <SystemDetail
+          system={selectedSystem}
+          onDelete={openDeleteConfirm}
+          isDeleting={isDeleting}
+        />
+
+        <View className="px-5 pb-8">
+          <SystemOwnershipSection
+            targetUrl={selectedSystem.target_url}
+            signatureToken={signatureToken}
+            embedHint={embedHint}
+            signatureMeta={signatureMeta}
+            isSignatureLoading={isSignatureLoading}
+            isValidating={isValidating}
+            onIssueToken={() => void issueSignatureToken(id)}
+            onValidate={() => void validateSignature(id)}
+          />
+
+          <SystemScanSection
+            signatureMeta={signatureMeta}
+            lastScanInfo={lastScanInfo}
+            scanResults={scanResults}
+            isScanning={isScanning}
+            isResultsLoading={isResultsLoading}
+            onStartScan={() => void startScan(id)}
+            onRefreshResults={() => void getScanResults(id)}
+          />
+        </View>
+      </ScrollView>
 
       <FormModal
         visible={editModalVisible}
-        title="Edit system"
+        title="Editar sistema"
         fields={SYSTEM_FORM_FIELDS}
         initialValues={systemToFormValues(selectedSystem)}
-        submitLabel="Save"
+        submitLabel="Salvar"
         isSubmitting={isSubmitting}
         error={submitError}
         onClose={() => setEditModalVisible(false)}
@@ -161,9 +216,9 @@ export default function SystemDetailScreen() {
 
       <ConfirmModal
         visible={deleteConfirmVisible}
-        title="Delete system"
-        message={`Are you sure you want to delete "${selectedSystem.name}"?`}
-        confirmLabel="Delete"
+        title="Excluir sistema"
+        message={`Tem certeza que deseja excluir "${selectedSystem.name}"?`}
+        confirmLabel="Excluir"
         onCancel={closeDeleteConfirm}
         onConfirm={handleConfirmDelete}
         isLoading={isDeleting}
