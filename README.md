@@ -9,12 +9,12 @@ Aplicação mobile focada no gerenciamento e simulação de testes de segurança
 _Acompanhamento do desenvolvimento a cada Checkpoint:_
 
 - [x] **Autenticação de Usuário:** Login e cadastro seguro para acesso à plataforma.
-- [ ] **CRUD de Projetos:** Gerenciamento dos projetos que englobam os sistemas.
-- [ ] **CRUD de Sistemas:** Cadastro e manutenção dos sistemas alvo.
+- [x] **CRUD de Projetos:** Gerenciamento dos projetos que englobam os sistemas.
+- [x] **CRUD de Sistemas:** Cadastro e manutenção dos sistemas alvo.
 - [ ] **CRUD de Stacks:** Criação, leitura, atualização e exclusão das tecnologias utilizadas.
-- [ ] **Validação de Posse:** Mecanismo para confirmar se o sistema alvo realmente pertence ao usuário logado antes de qualquer interação crítica.
-- [ ] **Simulação de Ataque:** Funcionalidade para disparar um ataque contra o sistema validado.
-- [ ] **Geração de Logs Básicos:** Registro simples em log dos ataques realizados nos sistemas.
+- [x] **Validação de Posse:** Mecanismo para confirmar se o sistema alvo realmente pertence ao usuário logado antes de qualquer interação crítica.
+- [x] **Simulação de Ataque:** Funcionalidade para disparar um ataque contra o sistema validado.
+- [x] **Geração de Logs Básicos:** Registro simples em log dos ataques realizados nos sistemas.
 
 ---
 
@@ -85,6 +85,11 @@ O diagrama abaixo representa a modelagem do banco de dados relacional
 - Fluxo Auth
 - Tela Home - Login - Register
 - Tab de navegação e layout em stack
+- Crud Projects
+- Crud Systems
+- Validação de posse
+- Ataque de sistema
+- Log dos resultados do ataque
 
 ### Desenvolvimento
 
